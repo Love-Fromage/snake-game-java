@@ -123,7 +123,7 @@ public class SnakeGame extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("Key pressed : " + e.getKeyCode());
+        // System.out.println("Key pressed : " + e.getKeyCode());
         // 65 =a
         // 87 = w
         // 68 = d
@@ -149,7 +149,7 @@ public class SnakeGame extends JFrame implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
-        System.out.println("Key released: " + e.getKeyCode());
+        // System.out.println("Key released: " + e.getKeyCode());
     }
 
     @Override
