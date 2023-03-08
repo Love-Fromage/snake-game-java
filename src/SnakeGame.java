@@ -1,4 +1,5 @@
 import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyListener;
@@ -8,20 +9,25 @@ import java.util.*;
 public class SnakeGame extends JFrame implements KeyListener {
 
     private static final int BOARD_WIDTH = 20;
+    private static SnakeGame snek;
     private static final int BOARD_HEIGHT = 20;
     private static final int SQUARE_SIZE = 20;
     private static final int PADDING = 5;
     private static Color[][] grid = new Color[BOARD_WIDTH][BOARD_HEIGHT];
+    private static int[] zeSnek = new int[] { BOARD_WIDTH / 2, BOARD_HEIGHT / 2 };
     private static int posX;
     private static int posY;
+    private static int speed = 1;
     private static int score;
     private static String direction = "right";
-    private static boolean gameOver;
+    private static boolean gameOver = false;
 
     public SnakeGame() {
         this.setSize(700, 500);
         setLocationRelativeTo(null);
         setTitle("Snake Game!");
+        setFocusable(true);
+        addKeyListener(this);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(Color.BLACK);
@@ -40,6 +46,8 @@ public class SnakeGame extends JFrame implements KeyListener {
                 int y = row * (SQUARE_SIZE + PADDING); // y-coordinate of top-left corner
                 if (row == 0 || row == BOARD_WIDTH - 1 || col == 0 || col == BOARD_HEIGHT - 1) {
                     g.setColor(Color.GREEN);
+                } else if (row == zeSnek[0] && col == zeSnek[1]) {
+                    g.setColor(Color.BLUE);
                 } else {
                     g.setColor(Color.BLACK);
                 }
@@ -50,84 +58,63 @@ public class SnakeGame extends JFrame implements KeyListener {
     }
 
     public static void main(String[] args) {
-        SnakeGame snek = new SnakeGame();
+        snek = new SnakeGame();
 
-        // // on initialise la grid avec du vide (spaces)
-        // for (int i = 0; i < BOARD_WIDTH; i++) {
-        // for (int j = 0; j < BOARD_HEIGHT; j++) {
-        // grid[j][i] = ' ';
-        // }
-        // }
-        // console.append("Welcome to my snake game!\n");
-        posX = 5;
-        posY = 5;
-        // Display(posX, posY);
-        int a = 0;
-        // try {
-        // while (!gameOver) {
-        // Thread.sleep(1000);
-        // if (direction == "right") {
-        // posX++;
-        // grid[posX - 1][posY] = ' ';
-        // clearScreen();
-        // Display(posX, posY);
-        // }
-        // if (direction == "down") {
-        // posY++;
-        // grid[posX][posY - 1] = ' ';
-        // clearScreen();
-        // Thread.sleep(1000);
-        // Display(posX, posY);
-        // }
-        // if (direction == "left") {
-        // posX--;
-        // grid[posX + 1][posY] = ' ';
-        // clearScreen();
-        // Thread.sleep(1000);
-        // Display(posX, posY);
-        // }
-        // if (direction == "up") {
-        // posY--;
-        // grid[posX][posY + 1] = ' ';
-        // clearScreen();
-        // Thread.sleep(1000);
-        // Display(posX, posY);
-        // }
-        // }
-        // } catch (InterruptedException e) {
-        // e.printStackTrace();
-        // }
-        // while (a < 10) {
-
-        // try {
-        // posX++;
-        // Thread.sleep(1000);
-        // grid[posX - 1][posY] = ' ';
-        // clearScreen();
-        // Display(posX, posY);
-        // } catch (InterruptedException e) {
-        // e.printStackTrace();
-        // }
-        // a++;
-        // }
+        while (true) {
+            // wait a short amount of time
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(direction);
+            moveSnek();
+            snek.repaint();
+        }
 
     }
 
-    // private static void Display(int x, int y) {
-    // grid[x][y] = 'S';
-    // for (int i = 0; i < BOARD_WIDTH; i++) {
-    // for (int j = 0; j < BOARD_HEIGHT; j++) {
-    // if (i == 0 || i == BOARD_WIDTH - 1 || j == 0 || j == BOARD_HEIGHT - 1) {
-    // // console.append("# ");
-    // } else {
-    // // console.append(grid[j][i] + " ");
-    // }
-    // }
-    // // console.append("\n");
-    // // console.append("" + console.getColumns());
-    // }
+    private static void moveSnek() {
+        int oldX = zeSnek[0];
+        int oldY = zeSnek[1];
+        if (direction == "right") {
+            zeSnek[1] += speed;
+            System.out.println(zeSnek[0]);
+            snek.repaint(zeSnek[0], zeSnek[1], SQUARE_SIZE, SQUARE_SIZE);
+        } else if (direction == "left") {
+            zeSnek[1] -= speed;
+            snek.repaint(zeSnek[0], zeSnek[1], SQUARE_SIZE, SQUARE_SIZE);
+        } else if (direction == "up") {
+            zeSnek[0] -= speed;
+            snek.repaint(zeSnek[0], zeSnek[1], SQUARE_SIZE, SQUARE_SIZE);
+        } else if (direction == "down") {
+            zeSnek[0] += speed;
+            snek.repaint(zeSnek[0], zeSnek[1], SQUARE_SIZE, SQUARE_SIZE);
+        }
 
-    // }
+        // check if blue square went out of bounds
+        if (zeSnek[0] < PADDING || zeSnek[0] > BOARD_WIDTH * (SQUARE_SIZE + PADDING)
+                ||
+                zeSnek[1] < PADDING || zeSnek[1] > BOARD_HEIGHT * (SQUARE_SIZE + PADDING)) {
+            // reset blue square to center of board
+            zeSnek[1] = BOARD_WIDTH / 2 * (SQUARE_SIZE + PADDING);
+            zeSnek[0] = BOARD_HEIGHT / 2 * (SQUARE_SIZE + PADDING);
+        }
+        // update the grid with the new locations of the squares
+        int row = oldY / (SQUARE_SIZE + PADDING);
+        int col = oldX / (SQUARE_SIZE + PADDING);
+        grid[row][col] = Color.BLACK;
+
+        row = zeSnek[1] / (SQUARE_SIZE + PADDING);
+        col = zeSnek[0] / (SQUARE_SIZE + PADDING);
+        if (grid[row][col] == Color.BLUE) {
+            System.out.println("Game Over");
+            // set game over to true and break out of loop
+            gameOver = true;
+            return;
+        }
+        grid[row][col] = Color.BLUE;
+    }
 
     private static void clearScreen() {
         // console.setText("");
@@ -168,7 +155,7 @@ public class SnakeGame extends JFrame implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
-        System.out.println("Key typed: " + e.getKeyCode());
+        // System.out.println("Key typed: " + e.getKeyCode());
     }
 
 }
