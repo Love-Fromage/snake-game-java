@@ -8,8 +8,8 @@ import java.util.*;
 
 public class SnakeGame extends JFrame implements KeyListener {
 
-    private static final int BOARD_WIDTH = 20;
     private static SnakeGame snek;
+    private static final int BOARD_WIDTH = 20;
     private static final int BOARD_HEIGHT = 20;
     private static final int SQUARE_SIZE = 20;
     private static final int PADDING = 5;
@@ -20,10 +20,12 @@ public class SnakeGame extends JFrame implements KeyListener {
     private static int speed = 1;
     private static int score;
     private static String direction = "right";
+    private static boolean[][] borders = new boolean[BOARD_WIDTH][BOARD_HEIGHT];
+
     private static boolean gameOver = false;
 
     public SnakeGame() {
-        this.setSize(700, 500);
+        this.setSize(800, 800);
         setLocationRelativeTo(null);
         setTitle("Snake Game!");
         setFocusable(true);
@@ -34,6 +36,7 @@ public class SnakeGame extends JFrame implements KeyListener {
 
         // Make the frame visible
         setVisible(true);
+
     }
 
     public void paint(Graphics g) {
@@ -42,14 +45,14 @@ public class SnakeGame extends JFrame implements KeyListener {
         // loop through each row and column and draw a rectangle
         for (int row = 0; row < BOARD_WIDTH; row++) {
             for (int col = 0; col < BOARD_HEIGHT; col++) {
-                int x = col * (SQUARE_SIZE + PADDING); // x-coordinate of top-left corner
-                int y = row * (SQUARE_SIZE + PADDING); // y-coordinate of top-left corner
-                if (row == 0 || row == BOARD_WIDTH - 1 || col == 0 || col == BOARD_HEIGHT - 1) {
+                int x = col * (SQUARE_SIZE + PADDING) + 50; // x-coordinate of top-left corner
+                int y = row * (SQUARE_SIZE + PADDING) + 50; // y-coordinate of top-left corner
+                if (borders[row][col]) {
                     g.setColor(Color.GREEN);
                 } else if (row == zeSnek[0] && col == zeSnek[1]) {
                     g.setColor(Color.BLUE);
                 } else {
-                    g.setColor(Color.BLACK);
+                    g.setColor(Color.WHITE);
                 }
                 // g.setColor(grid[row][col]); // set color from the 2D array
                 g.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
@@ -59,7 +62,14 @@ public class SnakeGame extends JFrame implements KeyListener {
 
     public static void main(String[] args) {
         snek = new SnakeGame();
-
+        // loop through each row and column and mark the border squares
+        for (int row = 0; row < BOARD_WIDTH; row++) {
+            for (int col = 0; col < BOARD_HEIGHT; col++) {
+                if (row == 0 || row == BOARD_WIDTH - 1 || col == 0 || col == BOARD_HEIGHT - 1) {
+                    borders[row][col] = true;
+                }
+            }
+        }
         while (true) {
             // wait a short amount of time
             try {
@@ -93,13 +103,17 @@ public class SnakeGame extends JFrame implements KeyListener {
         }
 
         // check if blue square went out of bounds
-        if (zeSnek[0] < PADDING || zeSnek[0] > BOARD_WIDTH * (SQUARE_SIZE + PADDING)
-                ||
-                zeSnek[1] < PADDING || zeSnek[1] > BOARD_HEIGHT * (SQUARE_SIZE + PADDING)) {
-            // reset blue square to center of board
-            zeSnek[1] = BOARD_WIDTH / 2 * (SQUARE_SIZE + PADDING);
-            zeSnek[0] = BOARD_HEIGHT / 2 * (SQUARE_SIZE + PADDING);
+        if (borders[zeSnek[0]][zeSnek[1]]) {
+            System.out.println("touch!");
         }
+
+        // if (zeSnek[0] < PADDING || zeSnek[0] > BOARD_WIDTH * (SQUARE_SIZE + PADDING)
+        // ||
+        // zeSnek[1] < PADDING || zeSnek[1] > BOARD_HEIGHT * (SQUARE_SIZE + PADDING)) {
+        // // reset blue square to center of board
+        // zeSnek[0] = BOARD_WIDTH / 2 * (SQUARE_SIZE + PADDING);
+        // zeSnek[1] = BOARD_HEIGHT / 2 * (SQUARE_SIZE + PADDING);
+        // }
         // update the grid with the new locations of the squares
         int row = oldY / (SQUARE_SIZE + PADDING);
         int col = oldX / (SQUARE_SIZE + PADDING);
