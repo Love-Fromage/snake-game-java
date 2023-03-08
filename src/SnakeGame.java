@@ -15,6 +15,7 @@ public class SnakeGame extends JFrame implements KeyListener {
     private static final int PADDING = 5;
     private static Color[][] grid = new Color[BOARD_WIDTH][BOARD_HEIGHT];
     private static int[] zeSnek = new int[] { BOARD_WIDTH / 2, BOARD_HEIGHT / 2 };
+    private static int[] food = new int[] { 2, 2 };
     private static int posX;
     private static int posY;
     private static int speed = 1;
@@ -47,7 +48,9 @@ public class SnakeGame extends JFrame implements KeyListener {
             for (int col = 0; col < BOARD_HEIGHT; col++) {
                 int x = col * (SQUARE_SIZE + PADDING) + 50; // x-coordinate of top-left corner
                 int y = row * (SQUARE_SIZE + PADDING) + 50; // y-coordinate of top-left corner
-                if (borders[row][col]) {
+                if (row == food[1] && col == food[0]) {
+                    g.setColor(Color.RED);
+                } else if (borders[row][col]) {
                     g.setColor(Color.GREEN);
                 } else if (row == zeSnek[0] && col == zeSnek[1]) {
                     g.setColor(Color.BLUE);
