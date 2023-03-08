@@ -87,17 +87,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         });
         timer.start();
         while (!gameOver) {
-            // wait a short amount of time
-
-            // ActionListener taskPerformer = new ActionListener() {
-            // public void actionPerformed(ActionEvent evt) {
-
-            // System.out.println(direction);
-            // moveSnek();
-            // snek.repaint();
-            // }
-            // };
-            // new Timer(delay, taskPerformer).start();
+            // todo
         }
 
     }
@@ -126,13 +116,6 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             timer.stop();
         }
 
-        // if (zeSnek[0] < PADDING || zeSnek[0] > BOARD_WIDTH * (SQUARE_SIZE + PADDING)
-        // ||
-        // zeSnek[1] < PADDING || zeSnek[1] > BOARD_HEIGHT * (SQUARE_SIZE + PADDING)) {
-        // // reset blue square to center of board
-        // zeSnek[0] = BOARD_WIDTH / 2 * (SQUARE_SIZE + PADDING);
-        // zeSnek[1] = BOARD_HEIGHT / 2 * (SQUARE_SIZE + PADDING);
-        // }
         // update the grid with the new locations of the squares
         int row = oldY / (SQUARE_SIZE + PADDING);
         int col = oldX / (SQUARE_SIZE + PADDING);
@@ -147,11 +130,6 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             return;
         }
         grid[row][col] = Color.BLUE;
-    }
-
-    private static void clearScreen() {
-        // console.setText("");
-
     }
 
     @Override
