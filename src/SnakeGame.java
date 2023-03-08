@@ -18,7 +18,8 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     private static final int PADDING = 5;
     private static Color[][] grid = new Color[BOARD_WIDTH][BOARD_HEIGHT];
     private static int[] zeSnek = new int[] { BOARD_WIDTH / 2, BOARD_HEIGHT / 2 };
-    private static int[] food = new int[] { 2, 2 };
+    private static ArrayList<int[]> snakebody = new ArrayList<>();
+    private static int[] food = new int[] { 15, 10 };
     private static int posX;
     private static int posY;
     private static int speed = 1;
@@ -39,6 +40,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(Color.BLACK);
 
+        snakebody.add(0, new int[] { zeSnek[0], zeSnek[1] });
         // Make the frame visible
         setVisible(true);
 
@@ -116,10 +118,15 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             timer.stop();
         }
 
+        if (zeSnek[0] == food[0] && zeSnek[1] == food[1]) {
+            System.out.println("yum!");
+        }
+
         // update the grid with the new locations of the squares
         int row = oldY / (SQUARE_SIZE + PADDING);
         int col = oldX / (SQUARE_SIZE + PADDING);
         grid[row][col] = Color.BLACK;
+        // snek.repaint(zeSnek[0], zeSnek[1], SQUARE_SIZE, SQUARE_SIZE);
 
         row = zeSnek[1] / (SQUARE_SIZE + PADDING);
         col = zeSnek[0] / (SQUARE_SIZE + PADDING);
@@ -136,9 +143,15 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         // System.out.println("Key pressed : " + e.getKeyCode());
         // 65 =a
+        // 80 =p
         // 87 = w
         // 68 = d
         // 83 =s
+        if (e.getKeyCode() == 80) {
+            // direction = "left";
+            System.exit(0);
+            // console.append(direction + "\n");
+        }
         if (e.getKeyCode() == 65) {
             direction = "left";
             // console.append(direction + "\n");
