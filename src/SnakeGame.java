@@ -1,12 +1,15 @@
 import javax.swing.JFrame;
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.util.*;
 
-public class SnakeGame extends JFrame implements KeyListener {
+public class SnakeGame extends JFrame implements ActionListener, KeyListener {
 
     private static SnakeGame snek;
     private static final int BOARD_WIDTH = 20;
@@ -20,6 +23,7 @@ public class SnakeGame extends JFrame implements KeyListener {
     private static int posY;
     private static int speed = 1;
     private static int score;
+    private static Timer timer;
     private static String direction = "right";
     private static boolean[][] borders = new boolean[BOARD_WIDTH][BOARD_HEIGHT];
 
@@ -73,16 +77,27 @@ public class SnakeGame extends JFrame implements KeyListener {
                 }
             }
         }
-        while (true) {
-            // wait a short amount of time
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        int delay = 500; // milliseconds
+        timer = new Timer(delay, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(direction);
+                moveSnek();
+                snek.repaint();
             }
-            System.out.println(direction);
-            moveSnek();
-            snek.repaint();
+        });
+        timer.start();
+        while (!gameOver) {
+            // wait a short amount of time
+
+            // ActionListener taskPerformer = new ActionListener() {
+            // public void actionPerformed(ActionEvent evt) {
+
+            // System.out.println(direction);
+            // moveSnek();
+            // snek.repaint();
+            // }
+            // };
+            // new Timer(delay, taskPerformer).start();
         }
 
     }
@@ -108,6 +123,7 @@ public class SnakeGame extends JFrame implements KeyListener {
         // check if blue square went out of bounds
         if (borders[zeSnek[0]][zeSnek[1]]) {
             System.out.println("touch!");
+            timer.stop();
         }
 
         // if (zeSnek[0] < PADDING || zeSnek[0] > BOARD_WIDTH * (SQUARE_SIZE + PADDING)
@@ -173,6 +189,12 @@ public class SnakeGame extends JFrame implements KeyListener {
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
         // System.out.println("Key typed: " + e.getKeyCode());
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
 
 }
