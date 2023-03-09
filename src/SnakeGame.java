@@ -100,15 +100,16 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                 }
             }
         }
-        int delay = 500; // milliseconds
+        int delay = 300; // milliseconds
         timer = new Timer(delay, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println(direction);
                 moveSnek();
                 System.out.printf("food: (%d, %d)", food[0], food[1]);
                 System.out.println();
-                System.out.printf("head: (%d, %d)", snakebody.get(0)[0], snakebody.get(0)[1]);
-                System.out.println();
+                // System.out.printf("head: (%d, %d)", snakebody.get(0)[0],
+                // snakebody.get(0)[1]);
+                // System.out.println();
                 snek.repaint();
             }
         });
@@ -153,6 +154,8 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             System.out.println("yum!");
             // we add a square in the snake at the end
             snakebody.add(snakebody.size() - 1, new int[] { food[0], food[1] });
+            // vu que on a manger, on bouge le food
+            MoveFood();
         }
 
         // update the grid with the new locations of the squares
@@ -170,6 +173,14 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             return;
         }
         grid[row][col] = Color.BLUE;
+    }
+
+    private static void MoveFood() {
+        Random rand = new Random();
+        int foodX = rand.nextInt(BOARD_WIDTH - 1);
+        int foodY = rand.nextInt(BOARD_HEIGHT - 1);
+        food[0] = foodX;
+        food[1] = foodY;
     }
 
     @Override
