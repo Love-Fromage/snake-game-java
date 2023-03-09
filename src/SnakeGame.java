@@ -54,15 +54,36 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             for (int col = 0; col < BOARD_HEIGHT; col++) {
                 int x = col * (SQUARE_SIZE + PADDING) + 50; // x-coordinate of top-left corner
                 int y = row * (SQUARE_SIZE + PADDING) + 50; // y-coordinate of top-left corner
-                if (row == food[1] && col == food[0]) {
-                    g.setColor(Color.RED);
-                } else if (borders[row][col]) {
-                    g.setColor(Color.GREEN);
-                } else if (row == snakebody.get(0)[1] && col == snakebody.get(0)[0]) {
-                    g.setColor(Color.BLUE);
-                } else {
-                    g.setColor(Color.WHITE);
+                boolean isSnakeBody = false;
+                for (int i = 0; i < snakebody.size(); i++) {
+                    int[] part = snakebody.get(i);
+                    if (col == part[0] && row == part[1]) {
+                        g.setColor(Color.BLUE);
+                        g.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
+                        isSnakeBody = true;
+                        break;
+                    }
                 }
+                if (!isSnakeBody) {
+                    if (row == food[1] && col == food[0]) {
+                        g.setColor(Color.RED);
+                    } else if (borders[row][col]) {
+                        g.setColor(Color.GREEN);
+                    } else {
+                        g.setColor(Color.WHITE);
+                    }
+                    g.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
+
+                }
+                // if (row == food[1] && col == food[0]) {
+                // g.setColor(Color.RED);
+                // } else if (borders[row][col]) {
+                // g.setColor(Color.GREEN);
+                // } else if (row == snakebody.get(0)[1] && col == snakebody.get(0)[0]) {
+                // g.setColor(Color.BLUE);
+                // } else {
+                // g.setColor(Color.WHITE);
+                // }
                 // g.setColor(grid[row][col]); // set color from the 2D array
                 g.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
             }
@@ -99,8 +120,8 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     }
 
     private static void moveSnek() {
-        int oldX = zeSnek[0];
-        int oldY = zeSnek[1];
+        int oldX = snakebody.get(0)[0];
+        int oldY = snakebody.get(0)[1];
         if (direction == "right") {
             snakebody.get(0)[0] += speed;
             System.out.println(snakebody.get(0)[0]);
@@ -122,8 +143,15 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             timer.stop();
         }
 
+        // update the snake body
+        int[] newBodyPart = { oldX, oldY };
+        snakebody.add(1, newBodyPart);
+        snakebody.remove(snakebody.size() - 1);
+
         if (snakebody.get(0)[0] == food[0] && snakebody.get(0)[1] == food[1]) {
             System.out.println("yum!");
+            // we add a square in the snake at the end
+            snakebody.add(snakebody.size() - 1, new int[] { food[0], food[1] });
         }
 
         // update the grid with the new locations of the squares
