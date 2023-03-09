@@ -25,7 +25,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     private static int speed = 1;
     private static int score;
     private static Timer timer;
-    private static String direction = "right";
+    private static String direction;
     private static boolean[][] borders = new boolean[BOARD_WIDTH][BOARD_HEIGHT];
 
     private static boolean gameOver = false;
@@ -100,13 +100,11 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                 }
             }
         }
-        int delay = 300; // milliseconds
+        int delay = 500; // milliseconds
         timer = new Timer(delay, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(direction);
+                // System.out.println(direction);
                 moveSnek();
-                System.out.printf("food: (%d, %d)", food[0], food[1]);
-                System.out.println();
                 // System.out.printf("head: (%d, %d)", snakebody.get(0)[0],
                 // snakebody.get(0)[1]);
                 // System.out.println();
@@ -177,15 +175,21 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
 
     private static void MoveFood() {
         Random rand = new Random();
-        int foodX = rand.nextInt(BOARD_WIDTH - 1);
-        int foodY = rand.nextInt(BOARD_HEIGHT - 1);
+        int foodX = (int) (Math.random() * (18 - 1)) + 1;
+        int foodY = (int) (Math.random() * (18 - 1)) + 1;
+        // if (foodX <= 0 || foodX >= 19) {
+
+        // foodX = rand.nextInt(BOARD_WIDTH + 1) - 1;
+        // }
         food[0] = foodX;
         food[1] = foodY;
+        System.out.printf("food: (%d, %d)", food[0], food[1]);
+        System.out.println();
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // System.out.println("Key pressed : " + e.getKeyCode());
+        System.out.println("Key pressed : " + e.getKeyCode());
         // 65 =a
         // 80 =p
         // 87 = w
@@ -194,6 +198,11 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         if (e.getKeyCode() == 80) {
             // direction = "left";
             System.exit(0);
+            // console.append(direction + "\n");
+        }
+        if (e.getKeyCode() == 70) {
+            // direction = "left";
+            MoveFood();
             // console.append(direction + "\n");
         }
         if (e.getKeyCode() == 65) {
