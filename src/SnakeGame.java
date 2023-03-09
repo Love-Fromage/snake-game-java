@@ -48,6 +48,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
 
     public void paint(Graphics g) {
         super.paint(g);
+        System.out.println("paint!");
 
         // loop through each row and column and draw a rectangle
         for (int row = 0; row < BOARD_WIDTH; row++) {
@@ -124,16 +125,20 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         if (direction == "right") {
             snakebody.get(0)[0] += speed;
             System.out.println(snakebody.get(0)[0]);
-            snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE, SQUARE_SIZE);
+            // snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE,
+            // SQUARE_SIZE);
         } else if (direction == "left") {
             snakebody.get(0)[0] -= speed;
-            snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE, SQUARE_SIZE);
+            // snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE,
+            // SQUARE_SIZE);
         } else if (direction == "up") {
             snakebody.get(0)[1] -= speed;
-            snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE, SQUARE_SIZE);
+            // snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE,
+            // SQUARE_SIZE);
         } else if (direction == "down") {
             snakebody.get(0)[1] += speed;
-            snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE, SQUARE_SIZE);
+            // snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE,
+            // SQUARE_SIZE);
         }
 
         // check if blue square went out of bounds
@@ -153,6 +158,8 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             // we add a square in the snake at the end
             snakebody.add(snakebody.size() - 1, new int[] { food[0], food[1] });
             // vu que on a manger, on bouge le food
+            // snek.repaint(snakebody.get(snakebody.size() - 1)[0],
+            // snakebody.get(snakebody.size() - 1)[1], SQUARE_SIZE, SQUARE_SIZE);
             MoveFood();
         }
 
@@ -174,6 +181,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     }
 
     private static void MoveFood() {
+        // snek.repaint();
         Random rand = new Random();
         int foodX = (int) (Math.random() * (18 - 1)) + 1;
         int foodY = (int) (Math.random() * (18 - 1)) + 1;
@@ -185,6 +193,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         food[1] = foodY;
         System.out.printf("food: (%d, %d)", food[0], food[1]);
         System.out.println();
+        snek.repaint();
     }
 
     @Override
