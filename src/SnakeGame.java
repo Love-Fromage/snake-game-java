@@ -25,6 +25,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     private static int speed = 1;
     private static int score;
     private static Timer timer;
+    private static int delay;
     private static String direction;
     private static boolean[][] borders = new boolean[BOARD_WIDTH][BOARD_HEIGHT];
 
@@ -48,7 +49,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
 
     public void paint(Graphics g) {
         super.paint(g);
-        System.out.println("paint!");
+        // System.out.println("paint!");
 
         // loop through each row and column and draw a rectangle
         for (int row = 0; row < BOARD_WIDTH; row++) {
@@ -76,16 +77,6 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                     g.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
 
                 }
-                // if (row == food[1] && col == food[0]) {
-                // g.setColor(Color.RED);
-                // } else if (borders[row][col]) {
-                // g.setColor(Color.GREEN);
-                // } else if (row == snakebody.get(0)[1] && col == snakebody.get(0)[0]) {
-                // g.setColor(Color.BLUE);
-                // } else {
-                // g.setColor(Color.WHITE);
-                // }
-                // g.setColor(grid[row][col]); // set color from the 2D array
                 g.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
             }
         }
@@ -93,6 +84,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
 
     public static void main(String[] args) {
         snek = new SnakeGame();
+
         // loop through each row and column and mark the border squares
         for (int row = 0; row < BOARD_WIDTH; row++) {
             for (int col = 0; col < BOARD_HEIGHT; col++) {
@@ -101,7 +93,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                 }
             }
         }
-        int delay = 500; // milliseconds
+        delay = 500; // milliseconds
         timer = new Timer(delay, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // System.out.println(direction);
@@ -124,7 +116,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         int oldY = snakebody.get(0)[1];
         if (direction == "right") {
             snakebody.get(0)[0] += speed;
-            System.out.println(snakebody.get(0)[0]);
+            // System.out.println(snakebody.get(0)[0]);
             // snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE,
             // SQUARE_SIZE);
         } else if (direction == "left") {
@@ -189,11 +181,19 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
 
         // foodX = rand.nextInt(BOARD_WIDTH + 1) - 1;
         // }
+        score += 10;
+        // le code en commentaire fait augmenter la vitesse progressivement mais jen
+        // veux pas pour linstant
+        // if (score % 3 == 0) {
+        // System.out.println("delay before: " + delay);
+        // timer.setDelay(delay -= 50);
+        // System.out.println("delay now: " + delay);
+        // }
         food[0] = foodX;
         food[1] = foodY;
-        System.out.printf("food: (%d, %d)", food[0], food[1]);
+        // System.out.printf("food: (%d, %d)", food[0], food[1]);
         System.out.println();
-        snek.repaint();
+        // snek.repaint();
     }
 
     @Override
