@@ -143,6 +143,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             timer.stop();
         }
 
+        // ici c'est surement le bout le plus important de tout le programme
         // update the snake body
         int[] newBodyPart = { oldX, oldY };
         snakebody.add(1, newBodyPart);
