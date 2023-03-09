@@ -58,7 +58,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                     g.setColor(Color.RED);
                 } else if (borders[row][col]) {
                     g.setColor(Color.GREEN);
-                } else if (row == zeSnek[0] && col == zeSnek[1]) {
+                } else if (row == snakebody.get(0)[1] && col == snakebody.get(0)[0]) {
                     g.setColor(Color.BLUE);
                 } else {
                     g.setColor(Color.WHITE);
@@ -84,6 +84,10 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             public void actionPerformed(ActionEvent e) {
                 System.out.println(direction);
                 moveSnek();
+                System.out.printf("food: (%d, %d)", food[0], food[1]);
+                System.out.println();
+                System.out.printf("head: (%d, %d)", snakebody.get(0)[0], snakebody.get(0)[1]);
+                System.out.println();
                 snek.repaint();
             }
         });
@@ -98,27 +102,27 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         int oldX = zeSnek[0];
         int oldY = zeSnek[1];
         if (direction == "right") {
-            zeSnek[1] += speed;
-            System.out.println(zeSnek[0]);
-            snek.repaint(zeSnek[0], zeSnek[1], SQUARE_SIZE, SQUARE_SIZE);
+            snakebody.get(0)[0] += speed;
+            System.out.println(snakebody.get(0)[0]);
+            snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE, SQUARE_SIZE);
         } else if (direction == "left") {
-            zeSnek[1] -= speed;
-            snek.repaint(zeSnek[0], zeSnek[1], SQUARE_SIZE, SQUARE_SIZE);
+            snakebody.get(0)[0] -= speed;
+            snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE, SQUARE_SIZE);
         } else if (direction == "up") {
-            zeSnek[0] -= speed;
-            snek.repaint(zeSnek[0], zeSnek[1], SQUARE_SIZE, SQUARE_SIZE);
+            snakebody.get(0)[1] -= speed;
+            snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE, SQUARE_SIZE);
         } else if (direction == "down") {
-            zeSnek[0] += speed;
-            snek.repaint(zeSnek[0], zeSnek[1], SQUARE_SIZE, SQUARE_SIZE);
+            snakebody.get(0)[1] += speed;
+            snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE, SQUARE_SIZE);
         }
 
         // check if blue square went out of bounds
-        if (borders[zeSnek[0]][zeSnek[1]]) {
+        if (borders[snakebody.get(0)[0]][snakebody.get(0)[1]]) {
             System.out.println("touch!");
             timer.stop();
         }
 
-        if (zeSnek[0] == food[0] && zeSnek[1] == food[1]) {
+        if (snakebody.get(0)[0] == food[0] && snakebody.get(0)[1] == food[1]) {
             System.out.println("yum!");
         }
 
