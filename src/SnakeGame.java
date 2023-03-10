@@ -72,7 +72,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                     } else if (borders[row][col]) {
                         g.setColor(Color.GREEN);
                     } else {
-                        g.setColor(Color.WHITE);
+                        g.setColor(Color.BLACK);
                     }
                     g.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
 
@@ -145,26 +145,15 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             // we add a square in the snake at the end
             snakebody.add(snakebody.size() - 1, new int[] { food[0], food[1] });
             // vu que on a manger, on bouge le food
-            // snek.repaint(snakebody.get(snakebody.size() - 1)[0],
-            // snakebody.get(snakebody.size() - 1)[1], SQUARE_SIZE, SQUARE_SIZE);
             MoveFood();
         }
 
-        // update the grid with the new locations of the squares
-        int row = oldY / (SQUARE_SIZE + PADDING);
-        int col = oldX / (SQUARE_SIZE + PADDING);
-        grid[row][col] = Color.BLACK;
+        // // update the grid with the new locations of the squares
+        // int row = oldY / (SQUARE_SIZE + PADDING);
+        // int col = oldX / (SQUARE_SIZE + PADDING);
+        // grid[row][col] = Color.BLACK;
         // snek.repaint(zeSnek[0], zeSnek[1], SQUARE_SIZE, SQUARE_SIZE);
 
-        row = zeSnek[1] / (SQUARE_SIZE + PADDING);
-        col = zeSnek[0] / (SQUARE_SIZE + PADDING);
-        if (grid[row][col] == Color.BLUE) {
-            System.out.println("Game Over");
-            // set game over to true and break out of loop
-            gameOver = true;
-            return;
-        }
-        grid[row][col] = Color.BLUE;
     }
 
     private static void MoveFood() {
