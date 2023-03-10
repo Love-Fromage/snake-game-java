@@ -211,38 +211,32 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         // 68 = d
         // 83 =s
         if (e.getKeyCode() == 80) {
-            // direction = "left";
+            // quand on appuie sur P on ferme le jeu
             System.exit(0);
-            // console.append(direction + "\n");
         }
         if (e.getKeyCode() == 70) {
-            // direction = "left";
+            // quand on appuie sur F on bouge la nourriture (pratique pour le debugging)
             MoveFood();
-            // console.append(direction + "\n");
         }
         if (e.getKeyCode() == 65) {
             if (direction != "right") {
                 direction = "left";
             }
-            // console.append(direction + "\n");
         }
         if (e.getKeyCode() == 87) {
             if (direction != "down") {
                 direction = "up";
             }
-            // console.append(direction + "\n");
         }
         if (e.getKeyCode() == 68) {
             if (direction != "left") {
                 direction = "right";
             }
-            // console.append(direction + "\n");
         }
         if (e.getKeyCode() == 83) {
             if (direction != "up") {
                 direction = "down";
             }
-            // console.append(direction + "\n");
         }
     }
 
