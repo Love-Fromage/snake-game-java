@@ -16,6 +16,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     private static final int BOARD_HEIGHT = 20;
     private static final int SQUARE_SIZE = 20;
     private static final int PADDING = 5;
+    private static int lives = 3;
     private static Color[][] grid = new Color[BOARD_WIDTH][BOARD_HEIGHT];
     private static int[] zeSnek = new int[] { BOARD_WIDTH / 2, BOARD_HEIGHT / 2 };
     private static ArrayList<int[]> snakebody = new ArrayList<>();
@@ -103,16 +104,30 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         // });
         // timer.start();
         while (!gameOver) {
-            // todo
-            try {
-                Thread.sleep(delay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (lives <= 0) {
+                System.out.println("gameover!");
+                gameOver = true;
+                break;
+            } else {
+
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                moveSnek();
+                snek.repaint();
             }
-            moveSnek();
-            snek.repaint();
+            // todo
         }
 
+    }
+
+    private static void checkLives() {
+        if (lives <= 0) {
+            System.out.println("game over");
+            gameOver = true;
+        }
     }
 
     private static void moveSnek() {
@@ -130,9 +145,18 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
 
         // check if blue square went out of bounds
         if (borders[snakebody.get(0)[0]][snakebody.get(0)[1]]) {
-            System.out.println("touch!");
+            System.out.println("OUT!");
             // timer.stop();
             gameOver = true;
+        }
+
+        // check if the snake is eating itself
+        for (int i = 1; i < snakebody.size(); i++) {
+            if (snakebody.get(0)[0] == snakebody.get(i)[0] && snakebody.get(0)[1] == snakebody.get(i)[1]) {
+                System.out.println("OUCH!");
+                lives--;
+                System.out.println(lives);
+            }
         }
 
         // ici c'est surement le bout le plus important de tout le programme
@@ -180,7 +204,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("Key pressed : " + e.getKeyCode());
+        // System.out.println("Key pressed : " + e.getKeyCode());
         // 65 =a
         // 80 =p
         // 87 = w
@@ -197,19 +221,27 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             // console.append(direction + "\n");
         }
         if (e.getKeyCode() == 65) {
-            direction = "left";
+            if (direction != "right") {
+                direction = "left";
+            }
             // console.append(direction + "\n");
         }
         if (e.getKeyCode() == 87) {
-            direction = "up";
+            if (direction != "down") {
+                direction = "up";
+            }
             // console.append(direction + "\n");
         }
         if (e.getKeyCode() == 68) {
-            direction = "right";
+            if (direction != "left") {
+                direction = "right";
+            }
             // console.append(direction + "\n");
         }
         if (e.getKeyCode() == 83) {
-            direction = "down";
+            if (direction != "up") {
+                direction = "down";
+            }
             // console.append(direction + "\n");
         }
     }
