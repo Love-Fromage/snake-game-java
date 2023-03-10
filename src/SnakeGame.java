@@ -94,19 +94,23 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             }
         }
         delay = 500; // milliseconds
-        timer = new Timer(delay, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // System.out.println(direction);
-                moveSnek();
-                // System.out.printf("head: (%d, %d)", snakebody.get(0)[0],
-                // snakebody.get(0)[1]);
-                // System.out.println();
-                snek.repaint();
-            }
-        });
-        timer.start();
+        // timer = new Timer(delay, new ActionListener() {
+        // public void actionPerformed(ActionEvent e) {
+        // snek.repaint();
+        // moveSnek();
+        // snek.repaint();
+        // }
+        // });
+        // timer.start();
         while (!gameOver) {
             // todo
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            moveSnek();
+            snek.repaint();
         }
 
     }
@@ -116,27 +120,19 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         int oldY = snakebody.get(0)[1];
         if (direction == "right") {
             snakebody.get(0)[0] += speed;
-            // System.out.println(snakebody.get(0)[0]);
-            // snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE,
-            // SQUARE_SIZE);
         } else if (direction == "left") {
             snakebody.get(0)[0] -= speed;
-            // snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE,
-            // SQUARE_SIZE);
         } else if (direction == "up") {
             snakebody.get(0)[1] -= speed;
-            // snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE,
-            // SQUARE_SIZE);
         } else if (direction == "down") {
             snakebody.get(0)[1] += speed;
-            // snek.repaint(snakebody.get(0)[0], snakebody.get(0)[1], SQUARE_SIZE,
-            // SQUARE_SIZE);
         }
 
         // check if blue square went out of bounds
         if (borders[snakebody.get(0)[0]][snakebody.get(0)[1]]) {
             System.out.println("touch!");
-            timer.stop();
+            // timer.stop();
+            gameOver = true;
         }
 
         // ici c'est surement le bout le plus important de tout le programme
@@ -146,7 +142,6 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         snakebody.remove(snakebody.size() - 1);
 
         if (snakebody.get(0)[0] == food[0] && snakebody.get(0)[1] == food[1]) {
-            System.out.println("yum!");
             // we add a square in the snake at the end
             snakebody.add(snakebody.size() - 1, new int[] { food[0], food[1] });
             // vu que on a manger, on bouge le food
@@ -191,9 +186,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         // }
         food[0] = foodX;
         food[1] = foodY;
-        // System.out.printf("food: (%d, %d)", food[0], food[1]);
         System.out.println();
-        // snek.repaint();
     }
 
     @Override
