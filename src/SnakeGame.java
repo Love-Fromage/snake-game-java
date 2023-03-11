@@ -108,6 +108,10 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                 System.out.println("gameover!");
                 gameOver = true;
                 break;
+            } else if (checkWin()) {
+                System.out.println("winner");
+                gameOver = true;
+                break;
             } else {
 
                 try {
@@ -118,15 +122,15 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                 moveSnek();
                 snek.repaint();
             }
-            // todo
         }
 
     }
 
-    private static void checkLives() {
-        if (lives <= 0) {
-            System.out.println("game over");
-            gameOver = true;
+    private static boolean checkWin() {
+        if (snakebody.size() >= 5) {
+            return true;
+        } else {
+            return false;
         }
     }
 
