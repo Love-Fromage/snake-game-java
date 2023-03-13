@@ -31,12 +31,14 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     private static boolean[][] borders = new boolean[BOARD_WIDTH][BOARD_HEIGHT];
     private static JLabel labelLives;
     private static JLabel labelScore;
+    private static JLabel fini;
 
     private static boolean gameOver = false;
 
     public SnakeGame() {
         this.setSize(800, 700);
         setLocationRelativeTo(null);
+        // setLayout(null);
         setTitle("Snake Game!");
         setFocusable(true);
         addKeyListener(this);
@@ -44,11 +46,15 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         labelLives.setForeground(Color.GREEN);
         labelScore = new JLabel("SCORE :" + score);
         labelScore.setForeground(Color.GREEN);
+        fini = new JLabel("Game status: ");
+        fini.setForeground(Color.GREEN);
+        // fini.setBounds(200, 200, 100, 100);
 
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.add(labelLives, BorderLayout.WEST);
         panel.add(labelScore, BorderLayout.SOUTH);
+        panel.add(fini, BorderLayout.EAST);
         panel.setBackground(Color.BLACK);
         getContentPane().add(panel, BorderLayout.SOUTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -106,6 +112,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                 }
             }
         }
+        System.out.println(snakebody.get(0)[0]);
         delay = 500; // milliseconds
         // timer = new Timer(delay, new ActionListener() {
         // public void actionPerformed(ActionEvent e) {
@@ -119,13 +126,15 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             if (lives <= 0) {
                 System.out.println("gameover!");
                 gameOver = true;
+                fini.setText("Game status : GAMEOVER! ");
                 break;
             } else if (checkWin()) {
                 System.out.println("winner");
                 gameOver = true;
+                fini.setText("Game status : WIN! ");
                 break;
             } else {
-
+                fini.setText("Game status: Playing...");
                 try {
                     Thread.sleep(delay);
                 } catch (InterruptedException e) {
@@ -146,6 +155,12 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         }
     }
 
+    private static void gameOver() {
+
+        // snek.getContentPane().add(fini, 6);
+
+    }
+
     private static void moveSnek() {
         int oldX = snakebody.get(0)[0];
         int oldY = snakebody.get(0)[1];
@@ -164,6 +179,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             System.out.println("OUT!");
             // timer.stop();
             gameOver = true;
+            gameOver();
         }
 
         // check if the snake is eating itself
