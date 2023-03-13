@@ -29,16 +29,28 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     private static int delay;
     private static String direction;
     private static boolean[][] borders = new boolean[BOARD_WIDTH][BOARD_HEIGHT];
+    private static JLabel labelLives;
+    private static JLabel labelScore;
 
     private static boolean gameOver = false;
 
     public SnakeGame() {
-        this.setSize(800, 800);
+        this.setSize(800, 700);
         setLocationRelativeTo(null);
         setTitle("Snake Game!");
         setFocusable(true);
         addKeyListener(this);
+        labelLives = new JLabel("LIVES :" + lives);
+        labelLives.setForeground(Color.GREEN);
+        labelScore = new JLabel("SCORE :" + score);
+        labelScore.setForeground(Color.GREEN);
 
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(labelLives, BorderLayout.WEST);
+        panel.add(labelScore, BorderLayout.SOUTH);
+        panel.setBackground(Color.BLACK);
+        getContentPane().add(panel, BorderLayout.SOUTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(Color.BLACK);
 
@@ -194,6 +206,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         // foodX = rand.nextInt(BOARD_WIDTH + 1) - 1;
         // }
         score += 10;
+        labelScore.setText("SCORE :" + score);
         // le code en commentaire fait augmenter la vitesse progressivement mais jen
         // veux pas pour linstant
         // if (score % 3 == 0) {
